@@ -1,0 +1,21 @@
+.in{
+    display:inline-block;
+    width: 250px;
+    height: 250px;
+    font-size: 200px;
+    border: 1px solid black;
+}
+.box{
+    justify-content: center;
+    display: flex;
+
+}
+div{
+    text-align: center;
+    font-size: 50px;
+    
+}
+table{
+    margin: auto;
+
+}

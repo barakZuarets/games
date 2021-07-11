@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="box">
+        <table>
+            <tr>
+                <td>X wins</td>
+                <td>O wins</td>
+            </tr>
+            <tr>
+                <td><span id='xWin'>0</span></td>
+                <td><span id='oWin'>0</span></td>
+            </tr>
+        </table>
+    </div>
+    <center>
+        <div class="box">
+            <div class='in' id="a0" onclick="push(0)"></div>
+            <div class='in' id="a1" onclick="push(1)"></div>
+            <div class='in' id="a2" onclick="push(2)"></div>
+        </div>
+        <div class="box">
+            <div class='in' id="a3" onclick="push(3)"></div>
+            <div class='in' id="a4" onclick="push(4)"></div>
+            <div class='in' id="a5" onclick="push(5)"></div>
+        </div>
+        <div class="box">
+            <div class='in' id="a6" onclick="push(6)"></div>
+            <div class='in' id="a7" onclick="push(7)"></div>
+            <div class='in' id="a8" onclick="push(8)"></div>
+        </div>
+        <div class="box"> <span id='turn'>start width x</span></div>
+        <a href="../index.html"><img src='../door.png'></a>
+    </center>
+    <script src="script.js">
+    </script>
+</body>
+
+</html>

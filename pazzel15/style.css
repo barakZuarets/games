@@ -1,0 +1,25 @@
+*{
+    text-align: center;
+}
+div{
+    display: inline-flex;
+    border: 1px solid black;
+    font-size: 49px;
+    color: blue;
+    width: 150px;
+    height: 150px;
+}
+
+p{
+    color: crimson;
+    font-size: x-large;
+}
+.timeStyle{
+
+    /* border: 1px solid black; */
+    /* background-image: url('wood.jpg'); */
+    /* background-repeat: no-repeat;  */
+  /* background-size: cover; */
+    font-size: x-large;
+    
+}
