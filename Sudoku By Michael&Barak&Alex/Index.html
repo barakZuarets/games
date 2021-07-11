@@ -20,6 +20,9 @@
   </header>
 
   <center>
+    <!-- ========================= התחברות והרשמה========================= -->
+    <div class='border1' id='border1'><img id='pic' src="pic.jpg" alt="sudoku book" srcset=""></div>
+    
     <!-- =========================כללים========================= -->
     <h1 id='h2'>rulls</h1>
     <div class='border1' id='border3'>
@@ -46,7 +49,7 @@
         <option value="36">בינוני</option>
         <option value="45">קשה</option>
       </select><br>
-      <button id='send' onclick='print()' value='select'></button>
+      <button id='send' onclick='print()'>submit</button>
     </div>
     <!-- =========================משחק========================= -->
     <div id='gameDiv'>
@@ -107,73 +110,73 @@
         </p>
       </div>
       <div class="squ">
-        <p><input class='size' id='b33' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b34' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b35' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b33' type="number" onclick="paint(3,3,4)">
+          <input class='size' id='b34' type="number" onclick="paint(3,3,4)">
+          <input class='size' id='b35' type="number" onclick="paint(3,3,4)">
         </p>
-        <p><input class='size' id='b43' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b44' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b45' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b43' type="number" onclick="paint(4,3,4)">
+          <input class='size' id='b44' type="number" onclick="paint(4,4,4)">
+          <input class='size' id='b45' type="number" onclick="paint(4,5,4)">
         </p>
-        <p><input class='size' id='b53' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b54' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b55' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b53' type="number" onclick="paint(5,3,4)">
+          <input class='size' id='b54' type="number" onclick="paint(5,4,4">
+          <input class='size' id='b55' type="number" onclick="paint(5,5,4)">
         </p>
       </div>
       <div class="squ">
-        <p><input class='size' id='b36' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b37' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b38' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b36' type="number" onclick="paint(3,6,5)">
+          <input class='size' id='b37' type="number" onclick="paint(3,7,5)">
+          <input class='size' id='b38' type="number" onclick="paint(3,8,5)">
         </p>
-        <p><input class='size' id='b46' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b47' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b48' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b46' type="number" onclick="paint(4,6,5)">
+          <input class='size' id='b47' type="number" onclick="paint(4,7,5)">
+          <input class='size' id='b48' type="number" onclick="paint(4,8,5)">
         </p>
-        <p><input class='size' id='b56' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b57' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b58' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b56' type="number" onclick="paint(5,6,5)">
+          <input class='size' id='b57' type="number" onclick="paint(5,7,5)">
+          <input class='size' id='b58' type="number" onclick="paint(5,8,5)">
         </p>
       </div><br>
       <div class="squ">
-        <p><input class='size' id='b60' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b61' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b62' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b60' type="number" onclick="paint(6,0,6)">
+          <input class='size' id='b61' type="number" onclick="paint(6,1,6)">
+          <input class='size' id='b62' type="number" onclick="paint(6,2,6)">
         </p>
-        <p><input class='size' id='b70' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b71' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b72' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b70' type="number" onclick="paint(7,0,6)">
+          <input class='size' id='b71' type="number" onclick="paint(7,1,6)">
+          <input class='size' id='b72' type="number" onclick="paint(7,2,6)">
         </p>
-        <p><input class='size' id='b80' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b81' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b82' type="number" onclick="paint(0,3,1)">
-        </p>
-      </div>
-      <div class="squ">
-        <p><input class='size' id='b63' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b64' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b65' type="number" onclick="paint(0,3,1)">
-        </p>
-        <p><input class='size' id='b73' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b74' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b75' type="number" onclick="paint(0,3,1)">
-        </p>
-        <p><input class='size' id='b83' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b84' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b85' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b80' type="number" onclick="paint(0,3,6)">
+          <input class='size' id='b81' type="number" onclick="paint(8,1,6)">
+          <input class='size' id='b82' type="number" onclick="paint(8,2,6)">
         </p>
       </div>
       <div class="squ">
-        <p><input class='size' id='b66' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b67' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b68' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b63' type="number" onclick="paint(6,3,7)">
+          <input class='size' id='b64' type="number" onclick="paint(6,4,7)">
+          <input class='size' id='b65' type="number" onclick="paint(6,5,7)">
         </p>
-        <p><input class='size' id='b76' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b77' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b78' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b73' type="number" onclick="paint(7,3,7)">
+          <input class='size' id='b74' type="number" onclick="paint(7,4,7)">
+          <input class='size' id='b75' type="number" onclick="paint(7,5,7)">
         </p>
-        <p><input class='size' id='b86' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b87' type="number" onclick="paint(0,3,1)">
-          <input class='size' id='b88' type="number" onclick="paint(0,3,1)">
+        <p><input class='size' id='b83' type="number" onclick="paint(8,3,7)">
+          <input class='size' id='b84' type="number" onclick="paint(8,4,7)">
+          <input class='size' id='b85' type="number" onclick="paint(8,5,7)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b66' type="number" onclick="paint(6,6,8)">
+          <input class='size' id='b67' type="number" onclick="paint(6,7,8)">
+          <input class='size' id='b68' type="number" onclick="paint(6,8,8)">
+        </p>
+        <p><input class='size' id='b76' type="number" onclick="paint(7,6,8)">
+          <input class='size' id='b77' type="number" onclick="paint(7,7,8)">
+          <input class='size' id='b78' type="number" onclick="paint(7,8,8)">
+        </p>
+        <p><input class='size' id='b86' type="number" onclick="paint(8,6,8)">
+          <input class='size' id='b87' type="number" onclick="paint(8,7,8)">
+          <input class='size' id='b88' type="number" onclick="paint(8,8,8)">
         </p>
       </div>
 
@@ -184,9 +187,8 @@
     </div>
   </center>
 
-  
-  </div
-  <a href='../index.html'><img src='../door.png' ></a>
+
+  </div>
   <script src='script.js'></script>
 </body>
 
