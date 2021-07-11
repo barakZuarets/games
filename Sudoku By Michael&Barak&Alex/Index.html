@@ -1,248 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Style.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.css" type="text/css">
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon-16x16.png" />
-    <title>GOLDEN SUDOKU</title>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 
-
 <body>
-    <!--HOME-->
-    <div id="home">
-        <header class="header">
-            <div class="header_inner">
-                <div class="logo_container">
-                    <div class="header_logo">GOLDEN SUDOKU</div>
-                </div>
-                <nav class="nav" id="nav">
-                    <a class="nav_link active" onclick="pushLink('home')">Home</a>
-                    <a class="nav_link" onclick="pushLink('HowToPlay')">How to Play</a>
-                    <a class="nav_link" onclick="pushLink('game')">Start Game</a>
-                   
-                    <a class="nav_link" onclick="pushLink('aboutpage')">About</a>
-                </nav>
-                
-            </div>
-        </header>
+  <!-- =========================קישורים========================= -->
+  mar<header id='links'>
+    <Span class="linkBar" onclick="pushLink('Home')">Home</Span>
+    <Span class="linkBar" onclick="pushLink('login')">login</Span>
+    <Span class="linkBar" onclick="pushLink('game')">game</Span>
+    <Span class="linkBar" onclick="pushLink('Rulls')">Rulls</Span>
+    <Span class="linkBar" onclick="pushLink('about')">about</Span>
+  </header>
+
+  <center>
+    <!-- ========================= התחברות והרשמה========================= -->
+    <div class='border1' id='border1'><img id='pic' src="pic.jpg" alt="sudoku book" srcset=""></div>
+    <h1 id='h1'>login</h1>
+    <div id='border2' class='border1'>
+
+      <table>
+        <tr>
+          <td><p>username: </p></td>
+          <td><input id='username1' type='text'></td>
+        </tr>
+        <tr>
+          <td><p>password: </p></td>
+          <td><input id='password1' type='password'></td>
+        </tr>
+        <tr>
+          <td><Span id='cPassword'>confirm<br> password:</Span></td>
+          <td><input id='cPassword1' type='password'></td>
+        </tr>
+      </table>
+      <center>
+      <button class='butLogin' id='reg' onclick="registeretin()">register</button>
+      <button class='butLogin' id='log' onclick="logIn()">login</button><br></center>
+      <Span  onclick="signup()">singup</Span>
     </div>
+    <!-- =========================כללים========================= -->
+    <h1 id='h2'>rulls</h1>
+    <div class='border1' id='border3'>
 
+      <iframe width="400" height="200" src="https://www.youtube.com/embed/kvU9_MVAiE0" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <!-- =========================אודות========================= -->
+    <h1 id='h3'>about</h1>
+    <div class='border1' id='border4'>
 
-
-    <!-- /header -->
-    <div id="home1">
-        <div class="intro">
-            <div class="container" id="homepage">
-
-
-                <div class="gameChoice">
-                    <h1 class="intro_title">SUDOKU</h1>
-                    <h3 class="subtitle_title">Pazzel for everyone!</h3>
-                    <center><a href="../index.html"><img src='../door.png'></a></center>
-                </div>
-
-            </div>
-        </div>
-
+      <p>bla bla bla</p>
+      <p>bla bla bla</p>
 
     </div>
-    
+    <!-- =========================בחירת שלב========================= -->
+    <h1 id='h4'>Select Level</h1>
+    <div id='levelsDiv' class='border1'>
+      <h1 id='un'>Hellow guest</h1>
+      <select name="dificult" id="dificult">
+        <option value="">בחר רמה</option>
+        <option value="27">קל</option>
+        <option value="36">בינוני</option>
+        <option value="45">קשה</option>
+      </select><br>
+      <button id='send' onclick='print()'>submit</button>
     </div>
-    <!--END HOME-->
+    <!-- =========================משחק========================= -->
+    <div id='gameDiv'>
+      <div class="squ" id="squ1">
+        <p><input class='size' id='b00' type="number" onclick="paint(0,0,0)">
+          <input class='size' id='b01' type="number" onclick="paint(0,1,0)">
+          <input class='size' id='b02' type="number" onclick="paint(0,2,0)">
+        </p>
+        <p><input class='size' id='b10' type="number" onclick="paint(1,0,0)">
+          <input class='size' id='b11' type="number" onclick="paint(1,1,0)">
+          <input class='size' id='b12' type="number" onclick="paint(1,2,0)">
+        </p>
+        <p><input class='size' id='b20' type="number" onclick="paint(2,0,0)">
+          <input class='size' id='b21' type="number" onclick="paint(2,1,0)">
+          <input class='size' id='b22' type="number" onclick="paint(2,2,0)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b03' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b04' type="number" onclick="paint(0,4,1)">
+          <input class='size' id='b05' type="number" onclick="paint(0,5,1)">
+        </p>
+        <p><input class='size' id='b13' type="number" onclick="paint(1,3,1)">
+          <input class='size' id='b14' type="number" onclick="paint(1,4,1)">
+          <input class='size' id='b15' type="number" onclick="paint(1,5,1)">
+        </p>
+        <p><input class='size' id='b23' type="number" onclick="paint(2,3,1)">
+          <input class='size' id='b24' type="number" onclick="paint(2,4,1)">
+          <input class='size' id='b25' type="number" onclick="paint(2,5,1)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b06' type="number" onclick="paint(0,6,2)">
+          <input class='size' id='b07' type="number" onclick="paint(0,7,2)">
+          <input class='size' id='b08' type="number" onclick="paint(0,8,2)">
+        </p>
+        <p><input class='size' id='b16' type="number" onclick="paint(1,6,2)">
+          <input class='size' id='b17' type="number" onclick="paint(1,7,2)">
+          <input class='size' id='b18' type="number" onclick="paint(1,8,2)">
+        </p>
+        <p><input class='size' id='b26' type="number" onclick="paint(2,6,2)">
+          <input class='size' id='b27' type="number" onclick="paint(2,7,2)">
+          <input class='size' id='b28' type="number" onclick="paint(2,8,2)">
+        </p>
+      </div><br>
+      <div class="squ">
+        <p><input class='size' id='b30' type="number" onclick="paint(3,0,3)">
+          <input class='size' id='b31' type="number" onclick="paint(3,1,3)">
+          <input class='size' id='b32' type="number" onclick="paint(3,2,3)">
+        </p>
+        <p><input class='size' id='b40' type="number" onclick="paint(4,0,3)">
+          <input class='size' id='b41' type="number" onclick="paint(4,1,3)">
+          <input class='size' id='b42' type="number" onclick="paint(4,2,3)">
+        </p>
+        <p><input class='size' id='b50' type="number" onclick="paint(5,0,3)">
+          <input class='size' id='b51' type="number" onclick="paint(5,1,3)">
+          <input class='size' id='b52' type="number" onclick="paint(5,2,3)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b33' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b34' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b35' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b43' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b44' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b45' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b53' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b54' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b55' type="number" onclick="paint(0,3,1)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b36' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b37' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b38' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b46' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b47' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b48' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b56' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b57' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b58' type="number" onclick="paint(0,3,1)">
+        </p>
+      </div><br>
+      <div class="squ">
+        <p><input class='size' id='b60' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b61' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b62' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b70' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b71' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b72' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b80' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b81' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b82' type="number" onclick="paint(0,3,1)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b63' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b64' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b65' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b73' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b74' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b75' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b83' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b84' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b85' type="number" onclick="paint(0,3,1)">
+        </p>
+      </div>
+      <div class="squ">
+        <p><input class='size' id='b66' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b67' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b68' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b76' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b77' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b78' type="number" onclick="paint(0,3,1)">
+        </p>
+        <p><input class='size' id='b86' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b87' type="number" onclick="paint(0,3,1)">
+          <input class='size' id='b88' type="number" onclick="paint(0,3,1)">
+        </p>
+      </div>
 
-
-    <!-- How to play -->
-    <div id="HowToPlay">
-        <form><br><br>
-            <h4>Sudoku Rules & Object of the game</h4><br>
-            <p>The object of the game is simple: Fill in the empty cells!</p>
-            <img src="img/start2finish.gif" class="HowToPlayImg">
-            <p>Easy, right? Well, hang on a sec…there is one rule you must follow: no repeats are allowed in any row, column, or block. To put it another way - you must use all nine numbers in each row, column, and block.
-                <br><br>OK, so what are rows, columns, and blocks? Glad you asked! Take a look at this diagram:</p>
-            <img src="img/nine_each_filled.gif" class="HowToPlayImg">
-            <p>Filling in the empty spaces doesn't seem that hard, does it? Actually, very often it's not. Be careful, though - each empty cell has only one correct answer. In fact, you might say the object of the game isn't so much "filling in" the cells
-                as it is "figuring out" what goes in them.
-                <br><br>You see, the pre-filled cells are not random. They were deliberately placed there in such a way to ensure only one final solution to the puzzle.
-                <br><br>It is the player's job to solve the puzzle, cell by cell, until there are no empty cells left!<br>
-                <br><br> 3BOOM - This is a game that uses a medium difficulty Sudoku board and can make only 2 mistakes,<br> on the third mistakes "BooM" you lose the game!</p><br>
-            <h5>Interesting fact: Because of the rules, every completed Sudoku puzzle will end up with exactly nine of each digit<br>(nine 1's, nine 2's, nine 3's, etc).</h5>
-
-        </form>
+      <br>
+      <button onclick="check()">בדוק</button>
+      <button onclick="hintClick()">רמז</button>
+      <button onclick="clean()">נקה</button>
     </div>
-    <!-- End How to play -->
+  </center>
 
 
-    <!--GAME-->
-    <div id="game">
-        <div id='hello' id="game">
-            <H1 id='name'></H1>
-        </div>
-        <div id="gameChoice">
-            <a class="button" onclick="prin(20)">Ease</a>
-            <a class="button" onclick="prin(40)">Medium</a>
-            <a class="button" onclick="prin(60)">Hard</a>
-            <a class="button" onclick="game3boom(40)">3Boom</a>
-        </div><br>
-        <div id='mistaken'>
-            <p id="mistake">Mistakes: <span id="mistakesAtm">0</span>/3</p>
-        </div>
-        <div id="sudoku-grid" onchange="mistaken()">
-            <div class="subgrid" id="subgrid_1a">
-                <input type="number" min="1" max="9" id="cell00" />
-                <input type="number" min="1" max="9" id="cell01" />
-                <input type="number" min="1" max="9" id="cell02" />
-                <input type="number" min="1" max="9" id="cell10" />
-                <input type="number" min="1" max="9" id="cell11" />
-                <input type="number" min="1" max="9" id="cell12" />
-                <input type="number" min="1" max="9" id="cell20" />
-                <input type="number" min="1" max="9" id="cell21" />
-                <input type="number" min="1" max="9" id="cell22" />
-            </div>
-            <div class="subgrid" id="subgrid_1b">
-                <input type="number" min="1" max="9" id="cell03" />
-                <input type="number" min="1" max="9" id="cell04" />
-                <input type="number" min="1" max="9" id="cell05" />
-                <input type="number" min="1" max="9" id="cell13" />
-                <input type="number" min="1" max="9" id="cell14" />
-                <input type="number" min="1" max="9" id="cell15" />
-                <input type="number" min="1" max="9" id="cell23" />
-                <input type="number" min="1" max="9" id="cell24" />
-                <input type="number" min="1" max="9" id="cell25" />
-            </div>
-            <div class="subgrid" id="subgrid_1c">
-                <input type="number" min="1" max="9" id="cell06" />
-                <input type="number" min="1" max="9" id="cell07" />
-                <input type="number" min="1" max="9" id="cell08" />
-                <input type="number" min="1" max="9" id="cell16" />
-                <input type="number" min="1" max="9" id="cell17" />
-                <input type="number" min="1" max="9" id="cell18" />
-                <input type="number" min="1" max="9" id="cell26" />
-                <input type="number" min="1" max="9" id="cell27" />
-                <input type="number" min="1" max="9" id="cell28" />
-            </div>
-            <div class="subgrid" id="subgrid_2a">
-                <input type="number" min="1" max="9" id="cell30" />
-                <input type="number" min="1" max="9" id="cell31" />
-                <input type="number" min="1" max="9" id="cell32" />
-                <input type="number" min="1" max="9" id="cell40" />
-                <input type="number" min="1" max="9" id="cell41" />
-                <input type="number" min="1" max="9" id="cell42" />
-                <input type="number" min="1" max="9" id="cell50" />
-                <input type="number" min="1" max="9" id="cell51" />
-                <input type="number" min="1" max="9" id="cell52" />
-            </div>
-            <div class="subgrid" id="subgrid_2b">
-                <input type="number" min="1" max="9" id="cell33" />
-                <input type="number" min="1" max="9" id="cell34" />
-                <input type="number" min="1" max="9" id="cell35" />
-                <input type="number" min="1" max="9" id="cell43" />
-                <input type="number" min="1" max="9" id="cell44" />
-                <input type="number" min="1" max="9" id="cell45" />
-                <input type="number" min="1" max="9" id="cell53" />
-                <input type="number" min="1" max="9" id="cell54" />
-                <input type="number" min="1" max="9" id="cell55" />
-            </div>
-            <div class="subgrid " id="subgrid_2c ">
-                <input type="number" min="1" max="9" id="cell36" />
-                <input type="number" min="1" max="9" id="cell37" />
-                <input type="number" min="1" max="9" id="cell38" />
-                <input type="number" min="1" max="9" id="cell46" />
-                <input type="number" min="1" max="9" id="cell47" />
-                <input type="number" min="1" max="9" id="cell48" />
-                <input type="number" min="1" max="9" id="cell56" />
-                <input type="number" min="1" max="9" id="cell57" />
-                <input type="number" min="1" max="9" id="cell58" />
-            </div>
-            <div class="subgrid " id="subgrid_3a ">
-                <input type="number" min="1" max="9" id="cell60" />
-                <input type="number" min="1" max="9" id="cell61" />
-                <input type="number" min="1" max="9" id="cell62" />
-                <input type="number" min="1" max="9" id="cell70" />
-                <input type="number" min="1" max="9" id="cell71" />
-                <input type="number" min="1" max="9" id="cell72" />
-                <input type="number" min="1" max="9" id="cell80" />
-                <input type="number" min="1" max="9" id="cell81" />
-                <input type="number" min="1" max="9" id="cell82" />
-            </div>
-            <div class="subgrid " id="subgrid_3b ">
-                <input type="number" min="1" max="9" id="cell63" />
-                <input type="number" min="1" max="9" id="cell64" />
-                <input type="number" min="1" max="9" id="cell65" />
-                <input type="number" min="1" max="9" id="cell73" />
-                <input type="number" min="1" max="9" id="cell74" />
-                <input type="number" min="1" max="9" id="cell75" />
-                <input type="number" min="1" max="9" id="cell83" />
-                <input type="number" min="1" max="9" id="cell84" />
-                <input type="number" min="1" max="9" id="cell85" />
-            </div>
-            <div class="subgrid " id="subgrid_3c ">
-                <input type="number" min="1" max="9" id="cell66" />
-                <input type="number" min="1" max="9" id="cell67" />
-                <input type="number" min="1" max="9" id="cell68" />
-                <input type="number" min="1" max="9" id="cell76" />
-                <input type="number" min="1" max="9" id="cell77" />
-                <input type="number" min="1" max="9" id="cell78" />
-                <input type="number" min="1" max="9" id="cell86" />
-                <input type="number" min="1" max="9" id="cell87" />
-                <input type="number" min="1" max="9" id="cell88" />
-            </div><br>
-
-        </div>
-
-        <div id="gameOptions">
-            <a class="button" onclick="cleanBoard()">Clear</a>
-            <a class="button" id="hint" onclick="hint()">Hint</a>
-            <a id='checkButton' class="button" onclick="check()">Finish</a>
-        </div>
-        <div class="intro" id='winOrLose'>
-            <a class="button" onclick="pushLink('game')">NEW GAME</a>
-        </div>
-    </div>
-
-    <!--END game-->
-
-
-
-
-    <!--about-->
-    <div class='about' id='about'>
-        <div class="aboutTitle">
-            <h4>A little about us and about this project:</h4>
-            <p>We are students an intensive full-stack course in 'SV college' and it's our semi-project at the course.</p>
-            <p>We are so busy writing functionality and design of this site,<br> That there is simply no time to write anything about us and how we create this site. :)</p>
-            <h4>
-                <span>Just play and enjoy!</span>
-            </h4>
-        </div>
-        <div class="aboutUs">
-            <div class="cards">
-                <div><img src="img/alex.jpg" class=aboutImg></div>
-                <div>Name: Alex Sayenko<br> Age: 30<br><a href="mailto:xaiven1990@gmail.com">xaiven1990@gmail.com</a></div>
-            </div>
-            <div class="cards">
-                <div><img src="img/barak.jpg" class=aboutImg></div>
-                <div>Name: Barak Zuarets<br>Age: 32<br><a href="mailto:Barak.zuaretss@gmail.com">Barak.zuaretss@gmail.com</a></div>
-            </div>
-            <div class="cards">
-                <div><img src="img/michael.jpg" class=aboutImg></div>
-                <div>Name: Michael Pan<br> Age: 41<br><a href="mailto:michaelgtv@gmail.com">michaelgtv@gmail.com</a></div>
-            </div>
-        </div>
-    </div>
-    <!--about-->
-
-
-
-    
-    <script src="script.js"></script>
+  </div>
+  <script src='script.js'></script>
 </body>
 
 </html>
