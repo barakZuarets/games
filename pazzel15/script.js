@@ -28,7 +28,6 @@ function isItemInArray(array, item) {
         }
     }
     return true;
-    
 }
 
 function print() {
