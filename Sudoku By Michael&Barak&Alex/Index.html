@@ -14,6 +14,7 @@
   <!-- =========================קישורים========================= -->
   mar<header id='links'>
     <Span class="linkBar" onclick="pushLink('Home')">Home</Span>
+    <Span class="linkBar" onclick="pushLink('login')">login</Span>
     <Span class="linkBar" onclick="pushLink('game')">game</Span>
     <Span class="linkBar" onclick="pushLink('Rulls')">Rulls</Span>
     <Span class="linkBar" onclick="pushLink('about')">about</Span>
@@ -22,7 +23,28 @@
   <center>
     <!-- ========================= התחברות והרשמה========================= -->
     <div class='border1' id='border1'><img id='pic' src="pic.jpg" alt="sudoku book" srcset=""></div>
-    
+    <h1 id='h1'>login</h1>
+    <div id='border2' class='border1'>
+
+      <table>
+        <tr>
+          <td><p>username: </p></td>
+          <td><input id='username1' type='text'></td>
+        </tr>
+        <tr>
+          <td><p>password: </p></td>
+          <td><input id='password1' type='password'></td>
+        </tr>
+        <tr>
+          <td><Span id='cPassword'>confirm<br> password:</Span></td>
+          <td><input id='cPassword1' type='password'></td>
+        </tr>
+      </table>
+      <center>
+      <button class='butLogin' id='reg' onclick="registeretin()">register</button>
+      <button class='butLogin' id='log' onclick="logIn()">login</button><br></center>
+      <Span  onclick="signup()">singup</Span>
+    </div>
     <!-- =========================כללים========================= -->
     <h1 id='h2'>rulls</h1>
     <div class='border1' id='border3'>
@@ -189,6 +211,7 @@
 
 
   </div>
+  <a href="../index.html"><img src='../door.png'></a>
   <script src='script.js'></script>
 </body>
 
