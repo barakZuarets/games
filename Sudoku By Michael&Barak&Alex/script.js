@@ -1,87 +1,64 @@
-//Defining global variables
+// משתנים גלובליים
 
-var matrix = [
-    [9, 7, 8, 1, 3, 2, 6, 5, 4],
-    [6, 4, 5, 7, 9, 8, 3, 2, 1],
-    [3, 1, 2, 4, 6, 5, 9, 8, 7],
-    [1, 8, 9, 2, 4, 3, 7, 6, 5],
-    [4, 2, 3, 5, 7, 6, 1, 9, 8],
-    [7, 5, 6, 8, 1, 9, 4, 3, 2],
-    [2, 9, 1, 3, 5, 4, 8, 7, 6],
-    [8, 6, 7, 9, 2, 1, 5, 4, 3],
-    [5, 3, 4, 6, 8, 7, 2, 1, 9],
+
+//משתנה גלובלי המכיל את לוח הסודוקו
+var sudokuBoard = [//sudoku
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    , [4, 5, 6, 7, 8, 9, 1, 2, 3]
+    , [7, 8, 9, 1, 2, 3, 4, 5, 6]
+    , [2, 3, 4, 5, 6, 7, 8, 9, 1]
+    , [5, 6, 7, 8, 9, 1, 2, 3, 4]
+    , [8, 9, 1, 2, 3, 4, 5, 6, 7]
+    , [3, 4, 5, 6, 7, 8, 9, 1, 2]
+    , [6, 7, 8, 9, 1, 2, 3, 4, 5]
+    , [9, 1, 2, 3, 4, 5, 6, 7, 8]
 ];
-var mistakeGame = 0;
-var count = 0;
-var countMistacks = 0;
-var lastMatrixPlayd;
-var prevWrongNum;
-var userName = 'Hello Guest';
-var userNameAndPassword = [
-    ['abcd', '1234']
-];
-document.getElementById('name').innerHTML = userName;
+//משתנה שמכיל העתק של לוח הסודוקו של המשחק האוחרון
+var boardCopy = [];
+//מונה כמות רמזים
+var hint = 0;
+//מכיל את שם המשתמש לאחר התחברות
+var userName = 'guest';
+
+var num;
+//מערך המכיל את שמות המשתמשים והסיסמאות
+var userNameAndPassword = [['abcd', '1234']];
 
 
-// Print Matrix in Cells
+// ___________________________________________________________________________________________________________
 
-function prin(num) {
+// יצירת לוח
 
-    let idPlace = 'cell';
-    document.getElementById('gameChoice').style.display = 'none';
-    document.getElementById('sudoku-grid').style.display = 'grid';
-    document.getElementById('gameOptions').style.display = 'inline-block';
-    matrix = randomMatrix();
-    let arr = copyMatrix(matrix);
-    arr = selectLevel(arr, num);
-    for (let i = 0; i < 9; i++) {
-        for (let k = 0; k < 9; k++) {
-            idPlace += i.toString() + k.toString();
-            document.getElementById(idPlace).value = arr[i][k];
-            if (arr[i][k] != ' ')
-                document.getElementById(idPlace).disabled = true;
-            idPlace = 'cell';
-        }
+// מקבל לוח ואת רמת המחיקה וכמות תאים למחיקה
+//מחזיר טבלה מחוקה בהתאם לכמות התאים המבוקשים
+function buildBordBydifficulty(myMatrix, difficulty) {
+    let placeToDelete = selectRandomPlaces(difficulty);
+    for (let i = 0; i < placeToDelete.length; i++) {
+        myMatrix[placeToDelete[i][0]][placeToDelete[i][1]] = ' ';
     }
-
+    return myMatrix;
 }
 
-
-// Select the level of difficulty
-function selectLevel(board, numberOfCellsToDelete) {
-
-    let del = levelDelete(numberOfCellsToDelete);
-    let s = board;
-    for (let i = 0; i < del.length; i++) {
-        s[del[i][0]][del[i][1]] = ' ';
-    }
-    lastMatrixPlayd = copyMatrix(s);
-    del = [];
-    return s;
-}
-
-// Deletes cells according to difficulty
-function levelDelete(j) {
-    let x = Math.floor(Math.random() * 9);
-    let y = Math.floor(Math.random() * 9);
-    let arrDelete = [
-        [x, y]
-    ];
-    j--;
-    while (j > 0) {
-        x = Math.floor(Math.random() * 9);
+//בוחר מספרים למחוק לקמה קלה
+function selectRandomPlaces(num) {
+    // debugger;
+    let placeToDelete = [[0, 0]];
+    let count = 0;
+    let x;
+    let y;
+    while (count < num) {
         y = Math.floor(Math.random() * 9);
-        if (isItemInArray(arrDelete, [x, y])) {
-            arrDelete.push([x, y]);
-            j--;
+        x = Math.floor(Math.random() * 9);
+        if (isItemInArray(placeToDelete, [x, y])) {
+            placeToDelete.push([x, y]);
+            count++;
         }
     }
-    return arrDelete;
+    return placeToDelete;
 }
 
-
-// Is Item in Array
-
+//מקבל מערך מיקומים ומיקום
+//מחזיר אם המיקום נמצא ברשימת מיקומים מחיקה
 function isItemInArray(array, item) {
     for (var i = 0; i < array.length; i++) {
         if (array[i][0] == item[0] && array[i][1] == item[1]) {
@@ -91,437 +68,358 @@ function isItemInArray(array, item) {
     return true;
 }
 
-
-// Random Matrix [+functions to randomly change col's or row's]
-
+// משנה את הסודוקו באופן רנדומלי לשורות או לעמודות
 function randomMatrix() {
-
-    let flag = Math.floor(Math.random() * 2)
-    if (flag == 0) {
-        return row(matrix);
-    } else {
-        return col(matrix);
+    let rotateRowsOrColumns = Math.floor(Math.random() * 2)
+    while (rotateRowsOrColumns >= 0) {
+        sudokuBoard = rotateRows(sudokuBoard);//sudoku
+        sudokuBoard = rotateColumns(sudokuBoard);//sudoku
+        rotateRowsOrColumns--;
     }
-}
+    return sudokuBoard;
 
-function row(arr) {
+}
+//מקבל לוח סודוקו
+//מעביר 3 שורות מהסוף להתחלה
+function rotateRows(myMatrix) {
 
     for (let i = 0; i < 3; i++) {
-        arr.push(arr.shift());
+        myMatrix.push(myMatrix.shift());
     }
-    return arr;
+    return myMatrix;
 }
-
-
-function col(arr) {
+//מקבל לוח סודוקו
+//מעביר 3 עמודות מהסוף להתחלה
+function rotateColumns(myMatrix) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 3; j++)
-            arr[i].push(arr[i].shift());
+            myMatrix[i].push(myMatrix[i].shift());
     }
-    return arr;
+    return myMatrix;
 }
 
 
-// Copy Matrix
-
+// מקבל את הלוח הראשי
+//מעתיק את הלוח הראשי כדי שלא ישתנה
+//מחזיר העתק של הלוח
 function copyMatrix(matrix) {
-    let arr = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
+    let newMatrix = [[0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        , [0, 0, 0, 0, 0, 0, 0, 0, 0]];
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            arr[i][j] = matrix[i][j];
+            newMatrix[i][j] = matrix[i][j];
         }
     }
-    return arr;
+    return newMatrix;
 }
 
 
-// 3 Hints for help
 
-function hint() {
-
-    let str;
-    let x;
-    let y;
-    while (count < 3) {
-        x = Math.floor(Math.random() * 9);
-        y = Math.floor(Math.random() * 9);
-        str = 'cell' + x.toString() + y.toString();
-        if (document.getElementById(str).value != matrix[x][y]) {
-            document.getElementById(str).value = matrix[x][y];
-            document.getElementById(str).disabled = true;
-            document.getElementById(str).style.backgroundColor = 'lightgrey';
-            count++;
-            if (count == 3) {
-                document.getElementById('hint').style.display = 'none';
-            } else {
-                document.getElementById('hint').style.display = 'inline-block';
-            }
-            break;
-
-        }
-
-    }
-}
-
-// A hint to the lecturer (without limitation of hint)
-
-function hint() {
-
-    let str;
-    let x;
-    let y;
-    while (count < 81) {
-        x = Math.floor(Math.random() * 9);
-        y = Math.floor(Math.random() * 9);
-        str = 'cell' + x.toString() + y.toString();
-        if (document.getElementById(str).value != matrix[x][y]) {
-            document.getElementById(str).value = matrix[x][y];
-            document.getElementById(str).disabled = true;
-            count++;
-            // if (count == 3) { 
-            //     document.getElementById('hint').style.display = 'none';
-            // } else {
-            //     document.getElementById('hint').style.display = 'inline-block';
-            // }
-            break;
-
-        }
-
-    }
-}
+function print() {
+    whitebox();
 
 
-//Clean Board + White board
+    let str = 'b';
+    num = Number(document.getElementById('dificult').value);
+    document.getElementById('levelsDiv').style.display = 'none';
+    document.getElementById('gameDiv').style.display = 'block';
+    sudokuBoard = randomMatrix();
 
-function cleanBoard() {
-    let arr = lastMatrixPlayd;
+    boardCopy = copyMatrix(sudokuBoard);
+    boardCopy = buildBordBydifficulty(boardCopy, num);
+
     for (let i = 0; i < 9; i++) {
         for (let k = 0; k < 9; k++) {
-            let idPlace = 'cell' + i.toString() + k.toString();
-            document.getElementById(idPlace).value = arr[i][k];
-            if (arr[i][k] != ' ') {
-                document.getElementById(idPlace).disabled = true;
-            } else {
-                document.getElementById(idPlace).disabled = false;
-                document.getElementById(idPlace).style.backgroundColor = 'white';
+            str += i.toString() + k.toString();
+            document.getElementById(str).value = boardCopy[i][k];
+            if (boardCopy[i][k] != ' ') {
+                document.getElementById(str).disabled = true;
+                document.getElementById(str).style.backgroundColor = 'rgb(229, 226, 226)';
             }
-        }
-    }
-    count = 0;
-    document.getElementById('hint').style.display = 'inline-block';
-    document.getElementById('mistakesAtm').innerHTML = 0;
-}
 
-
-function whiteBord() {
-    for (let i = 0; i < 9; i++) {
-        for (let k = 0; k < 9; k++) {
-            let idPlace = 'cell' + i.toString() + k.toString();
-            document.getElementById(idPlace).value = null;
-            document.getElementById(idPlace).disabled = false;
-            document.getElementById(idPlace).style.backgroundColor = null;
-        }
-    }
-}
-
-
-// Check the game
-
-function check() {
-    let str;
-    let flag = 0;
-    for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-
-            str = 'cell' + i.toString() + j.toString();
-            if (matrix[i][j] != Number(document.getElementById(str).value)) {
-                document.getElementById(str).style.backgroundColor = 'red';
-                flag = 1;
-            }
+            str = 'b';
         }
     }
 
-    setTimeout(function() {
-        if (flag == 1) {
-
-            document.getElementById('winOrLose').style.display = 'block';
-            document.getElementById('sudoku-grid').style.display = 'none';
-            document.getElementById('winOrLose').style.backgroundImage = 'url(img/lose.gif)';
-            document.getElementById('winOrLose').style.backgroundSize = 'cover';
-            document.getElementById('gameOptions').style.display = 'none';
-
-        } else {
-
-            document.getElementById('winOrLose').style.display = 'block';
-            document.getElementById('sudoku-grid').style.display = 'none';
-            document.getElementById('winOrLose').style.backgroundImage = 'url(img/win.gif)';
-            document.getElementById('winOrLose').style.backgroundSize = 'cover';
-            document.getElementById('gameOptions').style.display = 'none';
-
-        }
-    }, 2000);
 }
 
 
-// "3Boom" Game setup
 
-function game3boom(num) {
-    mistakeGame = 1;
-    prin(num);
-    document.getElementById('mistaken').style.display = 'block';
-}
+// ___________________________________________________________________________________________________________
 
+//מאמת התחברות ומעביר לדף המשחק
+function logIn() {
 
-// Check mistakes in "3Boom" games.
-
-function mistaken() {
-
-    if (mistakeGame == 1) {
-        var countMistake = 0;
-        var updatedMatrix = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-        if (document.getElementById('mistakesAtm').innerHTML == 1) {
-            countMistake = 1;
-        } else if (document.getElementById('mistakesAtm').innerHTML == 2) {
-            countMistake = 2;
-        }
-
-        for (let i = 0; i < 9; i++) {
-            for (let k = 0; k < 9; k++) {
-                let idPlace = 'cell' + i.toString() + k.toString();
-
-                updatedMatrix[i][k] = Number(document.getElementById(idPlace).value);
-
-                if (document.getElementById(idPlace).value != matrix[i][k] && document.getElementById(idPlace).value != '' && document.getElementById(idPlace).style.backgroundColor != 'red') {
-                    document.getElementById(idPlace).style.backgroundColor = 'red';
-                    countMistake++;
-                    document.getElementById('mistakesAtm').innerHTML = countMistake;
-                    prevWrongNum = Number(document.getElementById(idPlace).value);
-                } else if (document.getElementById(idPlace).value != matrix[i][k] && document.getElementById(idPlace).value != prevWrongNum && document.getElementById(idPlace).style.backgroundColor == 'red') {
-                    countMistake++;
-                    prevWrongNum = Number(document.getElementById(idPlace).value);
-                    document.getElementById('mistakesAtm').innerHTML = countMistake;
-                } else if (document.getElementById(idPlace).value == matrix[i][k] && document.getElementById(idPlace).style.backgroundColor == 'red') {
-                    document.getElementById(idPlace).style.backgroundColor = 'white';
-                    return;
-                }
-                if (document.getElementById('mistakesAtm').innerHTML >= 3) {
-                    document.getElementById('mistakesAtm').innerHTML = 3;
-                    if (document.getElementById('mistakesAtm').innerHTML == 3) {
-                        document.getElementById('mistake').style.border = '2px solid red';
-                    }
-                    setTimeout(function() {
-                        if (countMistake >= 3) {
-
-                            document.getElementById('winOrLose').style.display = 'block';
-                            document.getElementById('sudoku-grid').style.display = 'none';
-                            document.getElementById('winOrLose').style.backgroundImage = 'url(img/lose.gif)';
-                            document.getElementById('winOrLose').style.backgroundSize = 'cover';
-                            document.getElementById('gameOptions').style.display = 'none';
-
-                        }
-                    }, 1000);
-                }
-
-            }
-        }
+    let uName = document.getElementById('username1').value;
+    let pass = document.getElementById('password1').value;
+    if (isItemInArray(userNameAndPassword, [uName, pass]) == false) {
+        document.getElementById('un').innerHTML = 'Hellow ' + uName;
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'block';
     }
-}
-
-
-
-
-// Switch active links in navigation bar 
-
-let btnContainer = document.getElementById("nav");
-let btns = btnContainer.getElementsByClassName("nav_link");
-for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
-        var current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        this.className += " active";
-    });
-}
-
-
-// Switch Divs in HTML document
-
-function pushLink(str) {
-
-    if (str == 'home') {
-        document.getElementById('home1').style.display = 'block';
-        document.getElementById('about').style.display = 'none';
-        document.getElementById('game').style.display = 'none';
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('HowToPlay').style.display = 'none';
-    } else if (str == 'aboutpage') {
-        document.getElementById('home1').style.display = 'none';
-        document.getElementById('about').style.display = 'block';
-        document.getElementById('game').style.display = 'none';
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('HowToPlay').style.display = 'none';
-    } else if (str == 'game') {
-        whiteBord();
-        mistakeGame = 0;
-        document.getElementById('mistaken').style.display = 'none';
-        document.getElementById('checkButton').style.display = 'inline-block';
-        document.getElementById('hint').style.display = 'inline-block';
-        count = 0;
-        document.getElementById('mistakesAtm').innerHTML = 0;
-        document.getElementById('home1').style.display = 'none';
-        document.getElementById('about').style.display = 'none';
-        document.getElementById('game').style.display = 'block';
-        document.getElementById('gameChoice').style.display = 'block';
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('sudoku-grid').style.display = 'none';
-        document.getElementById('winOrLose').style.display = 'none';
-        document.getElementById('HowToPlay').style.display = 'none';
-    } else if (str == 'login') {
-        if (document.getElementById('inOrOut').innerHTML == 'LOG OUT') {
-            document.getElementById('inOrOut').innerHTML = 'LOG IN';
-            logOut();
-            pushLink('home');
-        } else {
-
-            document.getElementById('loginButton').style.display = 'inline-block';
-            document.getElementById('register').style.display = 'none';
-            document.getElementById('reg').style.display = 'block';
-            document.getElementById('confirm').style.display = 'none';
-            document.getElementById('confirmFaShow').style.display = 'none';
-            document.getElementById('home1').style.display = 'none';
-            document.getElementById('about').style.display = 'none';
-            document.getElementById('game').style.display = 'none';
-            document.getElementById('login').style.display = 'block';
-            document.getElementById('HowToPlay').style.display = 'none';
-            document.getElementById('password').value = '';
-            document.getElementById('username').value = '';
-            document.getElementById('confirm').value = '';
-
-        }
-    } else {
-        document.getElementById('home1').style.display = 'none';
-        document.getElementById('about').style.display = 'none';
-        document.getElementById('game').style.display = 'none';
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('HowToPlay').style.display = 'block';
+    else {
+        alert('username or password wrong');
     }
+
 }
-
-function replace_signin_to_signup() {
-    document.getElementById('loginButton').style.display = 'none';
-    document.getElementById('confirm').style.display = 'inline-block';
-    document.getElementById('confirmFaShow').style.display = 'inline-block';
-    document.getElementById('register').style.display = 'inline-block';
-    document.getElementById('reg').style.display = 'none';
-}
-
-
-// Check Login Information
-
-function checkLoginInformation() {
-    let flag = 'x';
-    let i = 0;
-
-    while (flag == 'x' && i < userNameAndPassword.length) {
-        if (document.getElementById('username').value == userNameAndPassword[i][0]) {
-            flag = i;
-        }
-        i++;
-    }
-    if (flag == 'x')
-        alert('user name not exist');
-    else if (document.getElementById('password').value != userNameAndPassword[flag][1]) {
-        alert('wrong password');
-    } else {
-        userName = 'Hello ' + userNameAndPassword[flag][0];
-        document.getElementById('name').innerHTML = userName;
-        document.getElementById('inOrOut').innerHTML = 'LOG OUT';
-        pushLink('game');
-    }
-}
-
-
-// Sign-up and Sign-in of users
-
-function register() {
-    let flag = 0;
-    if (document.getElementById('confirm').value != document.getElementById('password').value) {
-        alert('the password and the confirm not the same');
-        flag = 1;
-    } else if (document.getElementById('password').value == '') {
-        alert('enter password');
-        flag = 1;
-    } else {
-        for (let i = 0; i < userNameAndPassword.length; i++) {
-            if (document.getElementById('username').value == userNameAndPassword[i][0]) {
-                alert('the user name ' + document.getElementById('username').value + ' exist');
-                flag = 1;
-            }
-        }
-    }
-    if (flag != 1) {
-        userNameAndPassword.push([document.getElementById('username').value, document.getElementById('password').value]);
-        userName = 'Hello ' + document.getElementById('username').value;
-        document.getElementById('name').innerHTML = userName;
-        cleanLoginAndRegister();
-        document.getElementById('inOrOut').innerHTML = 'LOG OUT';
-        pushLink('game');
-
-    }
-}
-
-function cleanLoginAndRegister() {
-    document.getElementById('loginButton').style.display = 'block';
-    document.getElementById('confirm').style.display = 'none';
-    document.getElementById('register').style.display = 'none';
+function signup(){
+    document.getElementById('cPassword1').style.display = 'block';
+    document.getElementById('cPassword').style.display = 'block';
     document.getElementById('reg').style.display = 'block';
-    document.getElementById('confirm').value = '';
-    document.getElementById('register').value = '';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
+    document.getElementById('log').style.display = 'none';
+    
 }
 
-function logOut() {
-    userName = 'Hello Guest';
-    document.getElementById('name').innerHTML = userName;
-    cleanLoginAndRegister();
-}
-
-// function fib(num)
-// {
-//     if(num<=2)
-//         return 1;
-//     else
-//         return fib(num-1)+fib(num-2);
-// }
-
-// alert(fib(100));
-
-function fib(num)
+function registeretin()
 {
-    let arr=[1,1];
-    for (i=2;i<num;i++)
+    let uName = document.getElementById('username1').value;
+    let pass = document.getElementById('password1').value;
+    let cPass = document.getElementById('cPassword1').value;
+    if(pass!=cPass)
     {
-        arr.push(arr[i-1]+arr[i-2]);
+        alert('the password and the confirm is not the same');
     }
-    return arr
+    else  if (isItemInArray(userNameAndPassword, [uName, pass]) == false)
+    {
+        alert('the user name exist change your user name  or login if it is yours');
+    }
+    else
+    {
+        userNameAndPassword.push([uName, pass]);
+        document.getElementById('un').innerHTML = 'Hellow ' + uName;
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'block';
+    }
+
 }
+
+// ___________________________________________________________________________________________________________
+
+
+// מעביר בין המסכים בהתאם לקישור
+function pushLink(str) {
+    if (str == 'Home') {
+        document.getElementById('border1').style.display = 'block';
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('border3').style.display = 'none';
+        document.getElementById('border4').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'none';
+        document.getElementById('gameDiv').style.display = 'none';
+        document.getElementById('h1').style.display = 'none';
+        document.getElementById('h2').style.display = 'none';
+        document.getElementById('h3').style.display = 'none';
+        document.getElementById('h4').style.display = 'none';
+        
+    }
+    else if (str == 'login') {
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'block';
+        document.getElementById('border3').style.display = 'none';
+        document.getElementById('border4').style.display = 'none';
+        document.getElementById('gameDiv').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'none';
+        document.getElementById('h1').style.display = 'block';
+        document.getElementById('h2').style.display = 'none';
+        document.getElementById('h3').style.display = 'none';
+        document.getElementById('h4').style.display = 'none';
+        document.getElementById('cPassword1').style.display = 'none';
+    document.getElementById('cPassword').style.display = 'none';
+    document.getElementById('reg').style.display = 'none';
+    document.getElementById('log').style.display = 'block';
+    document.getElementById('username1').value='';
+    document.getElementById('password1').value='';
+    document.getElementById('cPassword1').value='';
+
+    }
+    else if (str == 'game') {
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('border3').style.display = 'none';
+        document.getElementById('border4').style.display = 'none';
+        document.getElementById('gameDiv').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'block';
+        document.getElementById('h1').style.display = 'none';
+        document.getElementById('h2').style.display = 'none';
+        document.getElementById('h3').style.display = 'none';
+        document.getElementById('h4').style.display = 'block';
+
+    }
+    else if (str == 'about') {
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('border3').style.display = 'none';
+        document.getElementById('border4').style.display = 'block';
+        document.getElementById('levelsDiv').style.display = 'none';
+        document.getElementById('gameDiv').style.display = 'none';
+        document.getElementById('h1').style.display = 'none';
+        document.getElementById('h2').style.display = 'none';
+        document.getElementById('h3').style.display = 'block';
+        document.getElementById('h4').style.display = 'none';
+
+    }
+    else {
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'none';
+        document.getElementById('border3').style.display = 'block';
+        document.getElementById('border4').style.display = 'none';
+        document.getElementById('levelsDiv').style.display = 'none';
+        document.getElementById('h1').style.display = 'none';
+        document.getElementById('gameDiv').style.display = 'none';
+        document.getElementById('h2').style.display = 'block';
+        document.getElementById('h3').style.display = 'none';
+        document.getElementById('h4').style.display = 'none';
+
+    }
+
+}
+
+// ___________________________________________________________________________________________________________
+
+// מנקה את הלוח לחזרה לתחילת המשחק 
+function clean() {
+    whitebox();
+    hint = 0;
+    let str = 'b';
+    for (let i = 0; i < 9; i++) {
+        for (let k = 0; k < 9; k++) {
+            str += i.toString() + k.toString();
+            document.getElementById(str).value = boardCopy[i][k];
+            document.getElementById(str).style.color = 'black';
+
+            if (boardCopy[i][k] != ' ') {
+                document.getElementById(str).disabled = true;
+                document.getElementById(str).style.backgroundColor = 'rgb(229, 226, 226)';
+            }
+
+            str = 'b';
+        }
+    }
+}
+//מאפס את כל התכונות בלוח ליצירת לוח חדש
+function whitebox() {
+    for (let i = 0; i < 9; i++) {
+        for (let k = 0; k < 9; k++) {
+            str = 'b' + i.toString() + k.toString();
+            document.getElementById(str).style.backgroundColor = 'white';
+            document.getElementById(str).disabled = false;
+            document.getElementById(str).value = '';
+            document.getElementById(str).style.color = 'black';
+        }
+    }
+}
+// ___________________________________________________________________________________________________________
+
+// רמז
+function hintClick() {
+
+    let str = 'b';
+    let i;
+    let j;
+    while (hint < 3) {
+        i = Math.floor(Math.random() * 9);
+        j = Math.floor(Math.random() * 9);
+        str = 'b' + i.toString() + j.toString();
+        if (document.getElementById(str).value != sudokuBoard[i][j]) {
+            document.getElementById(str).value = sudokuBoard[i][j];
+            document.getElementById(str).disabled = true;
+            hint++;
+            break;
+
+        }
+
+    }
+}
+
+
+// בודק את המשחק אם מולא כמו שצריך
+function check() {
+    let str = 'b';
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+
+            str += i.toString() + j.toString();
+            if (sudokuBoard[i][j] != Number(document.getElementById(str).value)) {
+                alert(' טעות בפתרון במקום:' + i.toString() + j.toString());
+                hint = 0;
+                num = [];
+                whitebox();
+                document.getElementById('levelsDiv').style.display = 'block';
+                document.getElementById('gameDiv').style.display = 'none';
+                break;
+            }
+            str = 'b';
+        }
+    }
+    alert('מצוין');
+    hint = 0;
+    num = [];
+    whitebox();
+    document.getElementById('levelsDiv').style.display = 'block';
+    document.getElementById('gameDiv').style.display = 'none';
+}
+// ___________________________________________________________________________________________________________
+
+//הפיכת מספרים לאדומים בלחיצה
+
+// צובע את התאים במשבצת בשורה ובעמודה של המיקום שנלחץ
+function paint(x, y, qub) {
+    let str = 'b';
+    for (let i = 0; i < 9; i++) {
+        for (let k = 0; k < 9; k++) {
+            str += i.toString() + k.toString();
+            document.getElementById(str).style.color = 'black';
+            str = 'b';
+        }
+    }
+    let squarr = selectTheCellsInTheQube(qub);
+    for (let i = 0; i < squarr.length; i++) {
+        str = 'b' + squarr[i];
+        document.getElementById(str).style.color = 'red';
+    }
+    for (let i = 0; i < 9; i++) {
+        str = 'b' + x.toString() + i.toString();
+        document.getElementById(str).style.color = 'red';
+
+        str = 'b' + i.toString() + y.toString();
+        document.getElementById(str).style.color = 'red';
+    }
+}
+//מקבל מספר קוביה ומחזיא התאים באותה קוביה
+function selectTheCellsInTheQube(num) {
+    if (num == 0) {
+        return [['00'], ['01'], ['02'], ['10'], ['11'], ['12'], ['20'], ['21'], ['22']];
+    }
+    if (num == 1) {
+        return [['03'], ['04'], ['05'], ['13'], ['14'], ['15'], ['23'], ['24'], ['25']];
+    }
+    if (num == 2) {
+        return [['06'], ['07'], ['08'], ['16'], ['17'], ['18'], ['26'], ['27'], ['28']];
+    }
+    if (num == 3) {
+        return [['30'], ['31'], ['32'], ['40'], ['41'], ['42'], ['50'], ['51'], ['52']];
+    }
+    if (num == 4) {
+        return [['33'], ['34'], ['35'], ['43'], ['44'], ['45'], ['53'], ['54'], ['55']];
+    }
+    if (num == 5) {
+        return [['36'], ['37'], ['38'], ['46'], ['47'], ['48'], ['56'], ['57'], ['58']];
+    }
+    if (num == 6) {
+        return [['60'], ['61'], ['62'], ['70'], ['71'], ['72'], ['80'], ['81'], ['82']];
+    }
+    if (num == 7) {
+        return [['63'], ['64'], ['65'], ['73'], ['74'], ['75'], ['83'], ['84'], ['85']];
+    }
+    if (num == 8) {
+        return [['66'], ['67'], ['68'], ['76'], ['77'], ['78'], ['86'], ['87'], ['88']];
+    }
+}
+
+
